@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from '../../assets/Logo.png';
 import regImg from '../../assets/reg.jpg'
 import { useContext, useState } from "react";
@@ -10,7 +10,8 @@ import { AuthContext } from "../../provider/FirebaseProvider";
 const Registration = () => {
 
     const [error, setError] = useState('')
-    const {createUser} = useContext(AuthContext)
+    const {createUser,updateUser,logout} = useContext(AuthContext);
+    const navigate = useNavigate()
 
     const {
         register,
@@ -22,7 +23,7 @@ const Registration = () => {
         const { fullName, email, image, password } = data
 
         if (password.length < 6) {
-            setError('Password should be at least 6 characters or longer');
+            setError('Password should be at leaast 6 characters or longer');
         }
         else if (!/[A-Z]/.test(password)) {
             setError('Must have an Uppercase letter in the password');
@@ -38,7 +39,12 @@ const Registration = () => {
         //creating user
         createUser(email,password)
         .then(()=>{
-            toast.success('Registration Successful');
+            updateUser(fullName,image)
+            .then(()=>{
+                toast.success('Registration Successful');
+                logout();
+                navigate('/login')
+            })          
         })
         .catch(()=>{
             setError("email already in use")

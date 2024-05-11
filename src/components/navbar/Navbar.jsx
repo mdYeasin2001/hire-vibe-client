@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/Logo.png"
+import { useContext } from "react";
+import { AuthContext } from "../../provider/FirebaseProvider";
 
 const Navbar = () => {
+
+    const { user, logout } = useContext(AuthContext)
+
     const navLinks = <>
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/">Home</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link>All Jobs</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link>Applied Jobs</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link>Add a Job</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link>My Job</Link></li>
-        <li className="text-black lg:text-white font-medium text-lg block lg:hidden"><Link to="/login"><button>Login</button></Link></li>
+        
     </>
     return (
         <>
@@ -20,6 +25,23 @@ const Navbar = () => {
                         </div>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-52">
                             {navLinks}
+                            {
+                        user ? <div className="dropdown dropdown-end">
+                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                <div className="w-11 rounded-full">
+                                    <img title={user?.displayName} src={user?.photoURL || "https://i.ibb.co/Wyry2pC/user.png"} />
+                                </div>
+                            </label>
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-lg w-52">
+                                <li>
+                                    <button className="btn btn-sm btn-ghost" onClick={logout}>Logout</button>
+                                </li>
+                            </ul>
+                        </div>
+                            :
+                            <li className="text-black lg:text-white font-medium text-lg block lg:hidden"><Link to="/login"><button>Login</button></Link></li>
+                    }
+                            
                         </ul>
                     </div>
                     <img className="w-32" src={logo} alt="" />
@@ -28,7 +50,24 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1">
                         {navLinks}
                     </ul>
-                    <Link to="/login"><button className="text-white font-bold border px-4 py-2 hover:text-black hover:bg-white rounded-sm transition-all duration-500">Login</button></Link>
+                    {
+                        user ? <div className="dropdown dropdown-end">
+                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                <div className="w-11 rounded-full">
+                                    <img title={user?.displayName} src={user?.photoURL || "https://i.ibb.co/Wyry2pC/user.png"} />
+                                </div>
+                            </label>
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-lg w-52">
+                                <li>
+                                    <button className="btn btn-sm btn-ghost" onClick={logout}>Logout</button>
+                                </li>
+                            </ul>
+                        </div>
+                            :
+                            <Link to="/login"><button className="text-white font-bold border px-4 py-2 hover:text-black hover:bg-white rounded-sm transition-all duration-500">Login</button></Link>
+                    }
+
+
                 </div>
             </div>
         </>
