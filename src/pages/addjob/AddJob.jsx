@@ -1,12 +1,58 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/FirebaseProvider";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddJob = () => {
+    const [startDate, setStartDate] = useState(new Date());
     const { user } = useContext(AuthContext)
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault()
+        const form = e.target;
+        const email = form.email.value;
+        const name = form.name.value;
+        const job_title = form.job_title.value;
+        const pictureURL = form.pictureURL.value;
+        const description = form.description.value;
+        const job_type = form.category.value;
+        const salary = form.salary.value;
+        const posting_Date = form.postingDate.value;
+        const deadline = startDate;
+        const applicants_number = form.applicants.value 
+
+        const jobData = {
+            job_title,
+            pictureURL,
+            description,
+            job_type,
+            salary,
+            posting_Date,
+            deadline,
+            applicants_number,
+            employer: {
+                email,
+                name,
+            }
+        }
+        try {
+            const { data } = await axios.post(
+                `${import.meta.env.VITE_API_URL}/job`, jobData
+            )
+            console.log(data)
+            toast.success("Job Added Successfully")
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
         <div className="py-24 px-10 md:px-24 lg:px-96">
             <h2 className="text-4xl font-extrabold text-center mb-6">Add a Job</h2>
-            <form>
+            <form onSubmit={handleFormSubmit}>
                 <div className="md:flex mb-8">
                     <div className="form-control md:w-1/2">
                         <label className="label">
@@ -67,8 +113,8 @@ const AddJob = () => {
                                 id='category'
                                 className='border p-3 rounded-md w-full'
                             >
-                                <option value='On-Site Job'>On-Site Job</option>
-                                <option value='Remote Job'>Remote Job</option>
+                                <option value='On-Site'>On-Site</option>
+                                <option value='Remote'>Remote</option>
                                 <option value='Hybrid'>Hybrid</option>
                                 <option value='Part-Time'>Part-Time</option>
                             </select>
@@ -90,7 +136,7 @@ const AddJob = () => {
                             <span className="label-text">Job Posting Date</span>
                         </label>
                         <label className="input-group">
-                            <input type="date" name="postingData" placeholder="Job Posting Date" className="input input-bordered w-full" />
+                            <input type="date" name="postingDate" placeholder="Job Posting Date" className="input input-bordered w-full" />
                         </label>
                     </div>
                 </div>
@@ -101,7 +147,7 @@ const AddJob = () => {
                             <span className="label-text">Application Deadline</span>
                         </label>
                         <label className="input-group">
-                            <input type="date" name="deadline" placeholder="Deadline" className="input input-bordered w-full" />
+                            <DatePicker className="border w-full p-3 rounded-lg" selected={startDate} onChange={(date) => setStartDate(date)} />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 md:ml-4">
