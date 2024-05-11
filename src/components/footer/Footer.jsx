@@ -2,7 +2,7 @@ import logo from '../../assets/Logo.png'
 const Footer = () => {
     return (
         <footer className="footer p-10 bg-gradient-to-r from-[#1488CC] to-[#2B32B2] text-base-content">
-            <img className='w-32' src={logo} alt="" />
+            <img className='w-40' src={logo} alt="" />
             <nav className='text-white'>
                 <h6 className="footer-title">Services</h6>
                 <a className="link link-hover">Branding</a>
