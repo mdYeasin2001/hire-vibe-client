@@ -1,6 +1,4 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import PropTypes from 'prop-types';
-
 import 'react-tabs/style/react-tabs.css';
 import JobCard from '../JobCard/JobCard';
 import { useEffect, useState } from 'react';
@@ -69,7 +67,4 @@ const TabCategories = () => {
         </Tabs>
     );
 };
-TabCategories.propTypes = {
-    jobs: PropTypes.array.isRequired
-}
 export default TabCategories;
