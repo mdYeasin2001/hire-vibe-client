@@ -8,7 +8,7 @@ import { AuthContext } from "../../provider/FirebaseProvider";
 
 const Login = () => {
     const [error, setError] = useState('')
-    const { signInUser } = useContext(AuthContext)
+    const { signInUser,googleLogin } = useContext(AuthContext)
 
     const {
         register,
@@ -24,6 +24,17 @@ const Login = () => {
         })
         .catch(()=>{
             setError('Please check your email and password')
+        })
+    }
+
+    //google login
+    const handleGoogleLogin = ()=>{
+        googleLogin()
+        .then(()=>{
+            toast.success("Login Successful")
+        })
+        .catch(error=>{
+            console.log(error)
         })
     }
 
@@ -70,7 +81,7 @@ const Login = () => {
                             </svg>
                         </div>
 
-                        <span className='w-5/6 px-4 py-3 font-bold text-center'>
+                        <span onClick={handleGoogleLogin} className='w-5/6 px-4 py-3 font-bold text-center'>
                             Sign in with Google
                         </span>
                     </div>
