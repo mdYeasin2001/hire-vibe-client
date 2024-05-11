@@ -3,6 +3,8 @@ import Root from "../layouts/Root";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Authentication/Login";
 import Registration from "../pages/Authentication/Registration";
+import DetailsJob from "../pages/jobDetails/DetailsJob";
+
 
 
 
@@ -13,7 +15,7 @@ const router = createBrowserRouter([
       children:[
         {
             path:"/",
-            element: <Home></Home>
+            element: <Home></Home>,
         },
         {
             path:"/login",
@@ -22,6 +24,10 @@ const router = createBrowserRouter([
         {
             path:"/registration",
             element:<Registration></Registration>
+        },
+        {
+            path:"/jobDetails/:id",
+            element: <DetailsJob></DetailsJob>
         }
       ]
     },
