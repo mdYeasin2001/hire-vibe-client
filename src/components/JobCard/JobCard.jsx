@@ -13,8 +13,8 @@ const JobCard = ({ job }) => {
 
             <div className="flex items-center justify-between">
 
-                <p className='text-gray-600 mt-2'>Buyer Name: Maynul Islam</p>
-                <p className='text-gray-600 mt-2'>Buyer Email: {email}</p>
+                <p className='text-gray-600 mt-2'>Employer Name: Maynul Islam</p>
+                <p className='text-gray-600 mt-2'>Employer Email: {email}</p>
             </div>
             <div className="flex items-center justify-between">
 

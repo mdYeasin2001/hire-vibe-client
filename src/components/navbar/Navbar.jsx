@@ -11,7 +11,7 @@ const Navbar = () => {
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/">Home</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link>All Jobs</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link>Applied Jobs</Link></li>
-        <li className="text-black lg:text-white font-medium text-lg"><Link>Add a Job</Link></li>
+        <li className="text-black lg:text-white font-medium text-lg"><Link to="/add-job">Add a Job</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link>My Job</Link></li>
         
     </>
