@@ -4,19 +4,58 @@ import { AuthContext } from "../../provider/FirebaseProvider";
 import axios from "axios";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const MyJobs = () => {
     const { user } = useContext(AuthContext);
 
     const [jobs, setJobs] = useState([])
 
+    const getData = async () => {
+        const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/${user?.email}`)
+        setJobs(data)
+    }
+
     useEffect(() => {
-        const getData = async () => {
-            const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/${user?.email}`)
-            setJobs(data)
-        }
         getData()
     }, [user])
+
+    const handleDelete = (id) => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`)
+                    console.log(data)
+                    if (data.deletedCount > 0) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                        getData()
+                    }
+
+
+                }
+                catch (err) {
+                    console.log(err)
+                    toast.error(err.message)
+                }
+
+            }
+        })
+    }
+
 
     return (
         <div className="m-8 p-4">
@@ -47,7 +86,7 @@ const MyJobs = () => {
                                     <Link to={`/jobDetails/${job._id}`}><button className=" px-3 text-white rounded-lg py-2 bg-gradient-to-r from-[#1488CC] to-[#2B32B2] cursor-pointer">View Details</button></Link>
                                     <div className="flex items-center mt-4 text-xl space-x-8">
                                         <FaRegEdit></FaRegEdit>
-                                        <MdDeleteOutline></MdDeleteOutline>
+                                        <MdDeleteOutline onClick={() => handleDelete(job._id)} className="text-red-500 cursor-pointer"></MdDeleteOutline>
                                     </div>
 
                                 </div></td>
