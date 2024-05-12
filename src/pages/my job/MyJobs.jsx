@@ -85,7 +85,9 @@ const MyJobs = () => {
                                 <td><div>
                                     <Link to={`/jobDetails/${job._id}`}><button className=" px-3 text-white rounded-lg py-2 bg-gradient-to-r from-[#1488CC] to-[#2B32B2] cursor-pointer">View Details</button></Link>
                                     <div className="flex items-center mt-4 text-xl space-x-8">
-                                        <FaRegEdit></FaRegEdit>
+                                        <Link to={`/update-job/${job._id}`}>
+                                            <FaRegEdit className="cursor-pointer"></FaRegEdit>
+                                        </Link>
                                         <MdDeleteOutline onClick={() => handleDelete(job._id)} className="text-red-500 cursor-pointer"></MdDeleteOutline>
                                     </div>
 
