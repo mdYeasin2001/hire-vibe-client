@@ -9,10 +9,10 @@ const Navbar = () => {
 
     const navLinks = <>
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/">Home</Link></li>
-        <li className="text-black lg:text-white font-medium text-lg"><Link>All Jobs</Link></li>
+        <li className="text-black lg:text-white font-medium text-lg"><Link to="/all-jobs">All Jobs</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link>Applied Jobs</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/add-job">Add a Job</Link></li>
-        <li className="text-black lg:text-white font-medium text-lg"><Link>My Job</Link></li>
+        <li className="text-black lg:text-white font-medium text-lg"><Link to="/my-jobs">My Jobs</Link></li>
         
     </>
     return (
@@ -54,7 +54,7 @@ const Navbar = () => {
                         user ? <div className="dropdown dropdown-end">
                             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                 <div className="w-11 rounded-full">
-                                    <img title={user?.displayName} src={user?.photoURL || "https://i.ibb.co/Wyry2pC/user.png"} />
+                                    <img referrerPolicy='no-referrer' title={user?.displayName} src={user?.photoURL || "https://i.ibb.co/Wyry2pC/user.png"} />
                                 </div>
                             </label>
                             <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-lg w-52">

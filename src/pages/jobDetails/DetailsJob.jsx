@@ -15,6 +15,9 @@ const DetailsJob = () => {
         if (isDeadlinePassed()) {
             toast.error('Deadline has expired');
         }
+        else if(employer.email === user?.email){
+            toast.error('Permission not granted')
+        }
         else {
             document.getElementById('my_modal_3').showModal()
         }
@@ -34,12 +37,13 @@ const DetailsJob = () => {
         const name = form.name.value
         const resumeLink = form.resumeLink.value
         const appliedJobData = {
-            jobId, email, name, resumeLink, job_title, job_type, deadline, salary, applicants_number, description
+            jobId, email, name, resumeLink, job_title, job_type, deadline, salary, applicants_number, description,employer
         }
 
         try {
             const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/appliedJob`, appliedJobData)
             console.log(data)
+            toast.success('Applied Successfully')
         }
         catch (err) {
             console.log(err)
