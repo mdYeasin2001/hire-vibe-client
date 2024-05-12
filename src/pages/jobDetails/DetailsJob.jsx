@@ -8,14 +8,14 @@ const DetailsJob = () => {
     const { user } = useContext(AuthContext)
 
     const { _id, job_title, job_type, deadline, salary, applicants_number, description,
-        pictureURL,employer } = job;
+        pictureURL, employer } = job;
 
 
     const handleApplyButtonClick = () => {
         if (isDeadlinePassed()) {
             toast.error('Deadline has expired');
         }
-        else if(employer.email === user?.email){
+        else if (employer.email === user?.email) {
             toast.error('Permission not granted')
         }
         else {
@@ -36,8 +36,9 @@ const DetailsJob = () => {
         const email = form.email.value
         const name = form.name.value
         const resumeLink = form.resumeLink.value
+        const applicantsNumber = parseInt(applicants_number)
         const appliedJobData = {
-            jobId, email, name, resumeLink, job_title, job_type, deadline, salary, applicants_number, description,employer
+            jobId, email, name, resumeLink, job_title, job_type, deadline, salary, applicants_number: applicantsNumber, description, employer
         }
 
         try {

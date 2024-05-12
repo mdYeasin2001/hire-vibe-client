@@ -21,7 +21,7 @@ const AddJob = () => {
         const salary = form.salary.value;
         const posting_Date = form.postingDate.value;
         const deadline = startDate;
-        const applicants_number = form.applicants.value 
+        const applicants_number = parseInt(form.applicants.value) 
 
         const jobData = {
             job_title,
@@ -61,6 +61,7 @@ const AddJob = () => {
                         <label className="input-group">
                             <input type="text"
                                 defaultValue={user?.displayName}
+                                readOnly
                                 name="name" placeholder="User Name" className="input input-bordered w-full" required/>
                         </label>
                     </div>
@@ -71,6 +72,7 @@ const AddJob = () => {
                         <label className="input-group">
                             <input type="email"
                                 defaultValue={user?.email}
+                                readOnly
                                 name="email" placeholder="Email" className="input input-bordered w-full" required/>
                         </label>
                     </div>
@@ -155,7 +157,9 @@ const AddJob = () => {
                             <span className="label-text">Job Applicants Number</span>
                         </label>
                         <label className="input-group">
-                            <input type="number" name="applicants" placeholder="Applicants Number" className="input input-bordered w-full" required/>
+                            <input type="number" name="applicants"
+                            value={0} readOnly
+                            placeholder="Applicants Number" className="input input-bordered w-full" required/>
                         </label>
                     </div>
                 </div>
