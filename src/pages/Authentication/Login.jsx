@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from '../../assets/Logo.png';
 import loginImg from '../../assets/login.jpg'
 import { ToastContainer, toast } from "react-toastify";
@@ -8,7 +8,10 @@ import { AuthContext } from "../../provider/FirebaseProvider";
 
 const Login = () => {
     const [error, setError] = useState('')
-    const { signInUser,googleLogin } = useContext(AuthContext)
+    const { signInUser, googleLogin } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location?.state || '/'
 
     const {
         register,
@@ -18,24 +21,26 @@ const Login = () => {
 
     const onSubmit = (data) => {
         const { email, password } = data
-        signInUser(email,password)
-        .then(()=>{
-            toast.success("Login Successful")
-        })
-        .catch(()=>{
-            setError('Please check your email and password')
-        })
+        signInUser(email, password)
+            .then(() => {
+                toast.success("Login Successful")
+                navigate(from)
+            })
+            .catch(() => {
+                setError('Please check your email and password')
+            })
     }
 
     //google login
-    const handleGoogleLogin = ()=>{
+    const handleGoogleLogin = () => {
         googleLogin()
-        .then(()=>{
-            toast.success("Login Successful")
-        })
-        .catch(error=>{
-            console.log(error)
-        })
+            .then(() => {
+                toast.success("Login Successful")
+                navigate(from)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     return (
@@ -122,9 +127,8 @@ const Login = () => {
 
                             <input type="submit" value="Login" className="text-lg font-semibold text-center w-full bg-amber-300 py-3 rounded-xl hover:bg-amber-200" />
                         </div>
-                        <ToastContainer></ToastContainer>
                     </form>
-
+                    <ToastContainer></ToastContainer>
                     <div className='flex items-center justify-between mt-4'>
                         <span className='w-1/5 border-b  md:w-1/4'></span>
 
@@ -139,6 +143,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+
         </div>
     );
 };

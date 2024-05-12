@@ -9,10 +9,12 @@ const googleProvider = new GoogleAuthProvider;
 const FirebaseProvider = ({children}) => {
 
     const [user,setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
 
     //creating user
     const createUser = (email,password)=>{
+        setLoading(true)
         return createUserWithEmailAndPassword(auth,email,password)
     }
 
@@ -26,16 +28,19 @@ const FirebaseProvider = ({children}) => {
 
     //sign In with email pass
     const signInUser = (email,password)=>{
+        setLoading(true)
         return signInWithEmailAndPassword(auth,email,password)
     }
 
     //google login
     const googleLogin = ()=>{
+        setLoading(true)
         return signInWithPopup(auth, googleProvider)
     }
 
     //logout user
     const logout = ()=>{
+        setLoading(true)
         return signOut(auth);
     }
 
@@ -44,6 +49,7 @@ const FirebaseProvider = ({children}) => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             console.log('user on observation', currentUser)
             setUser(currentUser);
+            setLoading(false)
         })
         return () => {
             unsubscribe();
@@ -52,6 +58,7 @@ const FirebaseProvider = ({children}) => {
 
     const allValues = {
         user,
+        loading,
         createUser,
         updateUser,
         signInUser,

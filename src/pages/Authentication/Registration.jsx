@@ -10,7 +10,7 @@ import { AuthContext } from "../../provider/FirebaseProvider";
 const Registration = () => {
 
     const [error, setError] = useState('')
-    const {createUser,updateUser,logout} = useContext(AuthContext);
+    const { createUser, updateUser, logout } = useContext(AuthContext);
     const navigate = useNavigate()
 
     const {
@@ -37,18 +37,18 @@ const Registration = () => {
         setError('')
 
         //creating user
-        createUser(email,password)
-        .then(()=>{
-            updateUser(fullName,image)
-            .then(()=>{
-                toast.success('Registration Successful');
-                logout();
-                navigate('/login')
-            })          
-        })
-        .catch(()=>{
-            setError("email already in use")
-        })
+        createUser(email, password)
+            .then(() => {
+                updateUser(fullName, image)
+                    .then(() => {
+                        toast.success('Registration Successful');
+                        logout();
+                        navigate('/login')
+                    })
+            })
+            .catch(() => {
+                setError("email already in use")
+            })
     }
 
 
@@ -118,8 +118,8 @@ const Registration = () => {
 
                             <input type="submit" value="Register" className="text-lg font-semibold text-center w-full bg-amber-300 py-3 rounded-xl hover:bg-amber-200" />
                         </div>
-                        <ToastContainer></ToastContainer>
                     </form>
+                    <ToastContainer></ToastContainer>
 
                     <div className='flex items-center justify-between mt-4'>
                         <span className='w-1/5 border-b  md:w-1/4'></span>
