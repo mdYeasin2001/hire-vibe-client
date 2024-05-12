@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/Logo.png"
 import { useContext } from "react";
 import { AuthContext } from "../../provider/FirebaseProvider";
+import ToggleTheme from "../togglemode/ToggleTheme";
 
 const Navbar = () => {
 
@@ -13,6 +14,7 @@ const Navbar = () => {
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/applied-jobs">Applied Jobs</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/add-job">Add a Job</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/my-jobs">My Jobs</Link></li>
+        <li><ToggleTheme></ToggleTheme></li>
         
     </>
     return (

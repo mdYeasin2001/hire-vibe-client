@@ -1,18 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../provider/FirebaseProvider";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const AppliedJobs = () => {
-    const {user} = useContext(AuthContext)
-    const [appliedJobs,setAppliedJobs] = useState([])
+    const { user } = useContext(AuthContext)
+    const [appliedJobs, setAppliedJobs] = useState([])
 
-    const getData = async () =>{
-        const {data} = await axios(`${import.meta.env.VITE_API_URL}/appliedJobs/${user?.email}`)
+    const getData = async () => {
+        const { data } = await axios(`${import.meta.env.VITE_API_URL}/appliedJobs/${user?.email}`)
         setAppliedJobs(data)
     }
-    useEffect(()=>{
+    useEffect(() => {
         getData()
-    },[user])
+    }, [user])
 
     return (
         <div className="m-8 p-4">
@@ -25,7 +26,7 @@ const AppliedJobs = () => {
                         <tr>
                             <th></th>
                             <th>Job Title</th>
-                            <th>Employer Name</th>
+                            <th>Employer Email</th>
                             <th>Application Deadline</th>
                             <th>Salary range</th>
                             <th>Action</th>
@@ -39,7 +40,11 @@ const AppliedJobs = () => {
                                 <td>{job.employer?.email}</td>
                                 <td>{new Date(job.deadline).toLocaleDateString()}</td>
                                 <td>{job.salary}</td>
-                                <td></td>
+                                <td>
+                                    <div className="flex items-center">
+                                    <Link className="btn btn-ghost" to={`/appliedJob/${job._id}`}>View Details</Link>
+                                    </div>
+                                </td>
                             </tr>)
                         }
                     </tbody>
