@@ -11,6 +11,7 @@ import UpdateJobs from "../pages/updateJob/UpdateJobs";
 import AppliedJobs from "../pages/applied Jobs/AppliedJobs";
 import PrivateRoute from "./Private Route/PrivateRoute";
 import AppliedJob from "../pages/single applied job/AppliedJob";
+import ErrorPage from "../pages/error page/ErrorPage";
 
 
 
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
+    errorElement:<ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
