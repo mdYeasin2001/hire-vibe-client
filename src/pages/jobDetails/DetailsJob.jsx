@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../provider/FirebaseProvider';
 import { ToastContainer, toast } from 'react-toastify';
@@ -6,6 +6,7 @@ import axios from 'axios';
 const DetailsJob = () => {
     const job = useLoaderData()
     const { user } = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const { _id, job_title, job_type, deadline, salary, applicants_number, description,
         pictureURL, employer } = job;
@@ -45,6 +46,10 @@ const DetailsJob = () => {
             const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/appliedJob`, appliedJobData)
             console.log(data)
             toast.success('Applied Successfully')
+            setTimeout(() => {
+                navigate('/');
+            }, 3000);
+
         }
         catch (err) {
             console.log(err)
