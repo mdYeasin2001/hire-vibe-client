@@ -11,11 +11,17 @@ const Navbar = () => {
     const navLinks = <>
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/">Home</Link></li>
         <li className="text-black lg:text-white font-medium text-lg"><Link to="/all-jobs">All Jobs</Link></li>
-        <li className="text-black lg:text-white font-medium text-lg"><Link to="/applied-jobs">Applied Jobs</Link></li>
-        <li className="text-black lg:text-white font-medium text-lg"><Link to="/add-job">Add a Job</Link></li>
-        <li className="text-black lg:text-white font-medium text-lg"><Link to="/my-jobs">My Jobs</Link></li>
+        {
+            user && <div className="lg:flex">
+                <li className="text-black lg:text-white font-medium text-lg"><Link to="/applied-jobs">Applied Jobs</Link></li>
+                <li className="text-black lg:text-white font-medium text-lg"><Link to="/add-job">Add a Job</Link></li>
+                <li className="text-black lg:text-white font-medium text-lg"><Link to="/my-jobs">My Jobs</Link></li>
+            </div>
+        }
+        <li className="text-black lg:text-white font-medium text-lg"><Link to="/blogs">Blogs</Link></li>
+
         <li><ToggleTheme></ToggleTheme></li>
-        
+
     </>
     return (
         <>
@@ -28,22 +34,22 @@ const Navbar = () => {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-52">
                             {navLinks}
                             {
-                        user ? <div className="dropdown dropdown-end">
-                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                <div className="w-11 rounded-full">
-                                    <img title={user?.displayName} src={user?.photoURL || "https://i.ibb.co/Wyry2pC/user.png"} />
+                                user ? <div className="dropdown dropdown-end">
+                                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                        <div className="w-11 rounded-full">
+                                            <img title={user?.displayName} src={user?.photoURL || "https://i.ibb.co/Wyry2pC/user.png"} />
+                                        </div>
+                                    </label>
+                                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-lg w-52">
+                                        <li>
+                                            <button className="btn btn-sm btn-ghost" onClick={logout}>Logout</button>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </label>
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-10 p-2 shadow bg-base-100 rounded-lg w-52">
-                                <li>
-                                    <button className="btn btn-sm btn-ghost" onClick={logout}>Logout</button>
-                                </li>
-                            </ul>
-                        </div>
-                            :
-                            <li className="text-black lg:text-white font-medium text-lg block lg:hidden"><Link to="/login"><button>Login</button></Link></li>
-                    }
-                            
+                                    :
+                                    <li className="text-black lg:text-white font-medium text-lg block lg:hidden"><Link to="/login"><button>Login</button></Link></li>
+                            }
+
                         </ul>
                     </div>
                     <img className="w-40" src={logo} alt="" />

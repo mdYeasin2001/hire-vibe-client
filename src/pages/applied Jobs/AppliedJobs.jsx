@@ -6,32 +6,32 @@ import { Link } from "react-router-dom";
 const AppliedJobs = () => {
     const { user } = useContext(AuthContext)
     const [appliedJobs, setAppliedJobs] = useState([])
-    const [displayJobs,setDisplayJobs] = useState([])
+    const [displayJobs, setDisplayJobs] = useState([])
 
     const handleFilterItem = (filter) => {
-        if(filter === 'all'){
+        if (filter === 'all') {
             setDisplayJobs(appliedJobs)
         }
-        else if(filter === 'on-site'){
-            const onSiteJobs = appliedJobs.filter(aJob=>aJob.job_type === 'On-Site')
+        else if (filter === 'on-site') {
+            const onSiteJobs = appliedJobs.filter(aJob => aJob.job_type === 'On-Site')
             setDisplayJobs(onSiteJobs)
         }
-        else if(filter === 'remote'){
-            const remoteJobs = appliedJobs.filter(aJob=>aJob.job_type === 'Remote')
+        else if (filter === 'remote') {
+            const remoteJobs = appliedJobs.filter(aJob => aJob.job_type === 'Remote')
             setDisplayJobs(remoteJobs)
         }
-        else if(filter === 'hybrid'){
-            const hybridJobs = appliedJobs.filter(aJob=>aJob.job_type === 'Hybrid')
+        else if (filter === 'hybrid') {
+            const hybridJobs = appliedJobs.filter(aJob => aJob.job_type === 'Hybrid')
             setDisplayJobs(hybridJobs)
         }
-        else if(filter === 'part-time'){
-            const partTimeJobs = appliedJobs.filter(aJob=>aJob.job_type === 'Part-Time')
+        else if (filter === 'part-time') {
+            const partTimeJobs = appliedJobs.filter(aJob => aJob.job_type === 'Part-Time')
             setDisplayJobs(partTimeJobs)
         }
     }
 
     const getData = async () => {
-        const { data } = await axios(`${import.meta.env.VITE_API_URL}/appliedJobs/${user?.email}`)
+        const { data } = await axios(`${import.meta.env.VITE_API_URL}/appliedJobs/${user?.email}`, { withCredentials: true })
         setAppliedJobs(data)
         setDisplayJobs(data)
     }
@@ -39,7 +39,7 @@ const AppliedJobs = () => {
         getData()
     }, [user])
 
-    
+
 
     return (
         <div className="m-8 p-4">
@@ -48,11 +48,11 @@ const AppliedJobs = () => {
             <div className="dropdown mb-4 flex items-center justify-center w-full">
                 <div tabIndex={0} role="button" className="btn m-1 bg-[#2B32B2] text-white hover:bg-[#2f36c6]">Filter-Job Category</div>
                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><button onClick={()=>handleFilterItem('all')}>All</button></li>
-                    <li><button onClick={()=>handleFilterItem('on-site')}>On-Site</button></li>
-                    <li><button onClick={()=>handleFilterItem('remote')}>Remote</button></li>
-                    <li><button onClick={()=>handleFilterItem('hybrid')}>Hybrid</button></li>
-                    <li><button onClick={()=>handleFilterItem('part-time')}>Part-Time</button></li>
+                    <li><button onClick={() => handleFilterItem('all')}>All</button></li>
+                    <li><button onClick={() => handleFilterItem('on-site')}>On-Site</button></li>
+                    <li><button onClick={() => handleFilterItem('remote')}>Remote</button></li>
+                    <li><button onClick={() => handleFilterItem('hybrid')}>Hybrid</button></li>
+                    <li><button onClick={() => handleFilterItem('part-time')}>Part-Time</button></li>
                 </ul>
             </div>
             <div className="overflow-x-auto">
@@ -78,7 +78,7 @@ const AppliedJobs = () => {
                                 <td>{job.salary}</td>
                                 <td>
                                     <div className="flex items-center">
-                                    <Link className="btn btn-ghost" to={`/appliedJob/${job._id}`}>View Details</Link>
+                                        <Link className="btn btn-ghost" to={`/appliedJob/${job._id}`}>View Details</Link>
                                     </div>
                                 </td>
                             </tr>)

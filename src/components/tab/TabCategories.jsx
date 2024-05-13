@@ -3,6 +3,9 @@ import 'react-tabs/style/react-tabs.css';
 import JobCard from '../JobCard/JobCard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { motion } from "framer-motion";
+import {fadeIn} from '../../variants'
+
 const TabCategories = () => {
     const [jobs,setJobs] = useState([])
 
@@ -29,11 +32,16 @@ const TabCategories = () => {
                     </TabList>
                 </div>
                 <TabPanel>
-                    <div className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
+                    <motion.div 
+                    variants={fadeIn("right")}
+                    initial="hidden"
+                    whileInView={"show"}
+                    viewport={{once: false, amount: 0.5}}
+                    className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
                         {
                             jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
                         }
-                    </div>
+                    </motion.div>
                 </TabPanel>
                 <TabPanel>
                     <div className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>

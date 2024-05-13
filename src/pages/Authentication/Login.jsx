@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../provider/FirebaseProvider";
+import axios from "axios";
 
 const Login = () => {
     const [error, setError] = useState('')
@@ -19,28 +20,36 @@ const Login = () => {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         const { email, password } = data
-        signInUser(email, password)
-            .then(() => {
-                toast.success("Login Successful")
-                navigate(from)
-            })
-            .catch(() => {
-                setError('Please check your email and password')
-            })
+        try {
+            const result = await signInUser(email, password)
+            console.log(result.user)
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, { email: result?.user?.email }, { withCredentials: true })
+            console.log(data);
+            toast.success("Login Successful")
+            navigate(from)
+        }
+        catch (err) {
+            console.log(err)
+            setError('Please check your email and password')
+        }
     }
 
     //google login
-    const handleGoogleLogin = () => {
-        googleLogin()
-            .then(() => {
-                toast.success("Login Successful")
-                navigate(from)
-            })
-            .catch(error => {
-                console.log(error)
-            })
+    const handleGoogleLogin = async () => {
+        try {
+            const result = await googleLogin()
+            console.log(result.user)
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, { email: result?.user?.email }, { withCredentials: true })
+            console.log(data);
+            toast.success("Login Successful")
+            navigate(from)
+        }
+        catch (error) {
+            console.log(error)
+            toast.error(error?.message)
+        }
     }
 
     return (
@@ -128,7 +137,7 @@ const Login = () => {
                             <input type="submit" value="Login" className="text-lg font-semibold text-center w-full bg-amber-300 py-3 rounded-xl hover:bg-amber-200" />
                         </div>
                     </form>
-                    <ToastContainer></ToastContainer>
+
                     <div className='flex items-center justify-between mt-4'>
                         <span className='w-1/5 border-b  md:w-1/4'></span>
 
@@ -143,7 +152,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-
+            <ToastContainer></ToastContainer>
         </div>
     );
 };
