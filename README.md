@@ -1,8 +1,20 @@
-# React + Vite
+# Job-Hive
+Live Site: (https://job-hive-e9291.web.app/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features of my Website:
 
-Currently, two official plugins are available:
+* User Authentication System
+* Add jobs System
+* Delete jobs
+* Update jobs
+* View jobs
+* View Applied jobs
+* Dark mode toggle
+* Responsive Design
+* User Friendly UI experience 
+* User Profile Management
+* Feedback and Support
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+assignment_category_0003
+
+
