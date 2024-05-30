@@ -12,7 +12,7 @@ import slide4 from '../../assets/slider4.jpg'
 import Slide from './Slide'
 const Banner = () => {
     return (
-        <div className='p-10'>
+        <div className='pb-10'>
             <Swiper
                 spaceBetween={30}
                 centeredSlides={true}

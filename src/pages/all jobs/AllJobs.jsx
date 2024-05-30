@@ -33,7 +33,7 @@ const AllJobs = () => {
                 <form onSubmit={handleSearch}>
                     <input type="text"
                     name="search"
-                    placeholder="Search" className="input input-bordered w-full max-w-xs mt-10" />
+                    placeholder="Search" className="input input-bordered w-full mt-10" />
                     <div className="flex items-center justify-center">
                         <input type="submit" className='text-white bg-[#2B32B2] px-6 py-3 rounded-lg font-semibold mt-2' value="Search" />
                     </div>

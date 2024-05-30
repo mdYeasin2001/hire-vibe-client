@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { motion } from "framer-motion"
 const Slide = ({ image }) => {
     return (
-        <div className="w-full bg-center bg-cover md:h-[750px]" style={{ backgroundImage: `url(${image})` }}>
+        <div className="w-full bg-center bg-cover md:h-[750px] lg:h-[800px]" style={{ backgroundImage: `url(${image})` }}>
 
             <div className="flex items-center justify-center w-full h-full bg-gray-900/30">
                 <div className="text-center">

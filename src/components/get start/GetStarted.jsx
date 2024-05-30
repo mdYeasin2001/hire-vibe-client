@@ -4,7 +4,7 @@ import { RiGuideFill } from "react-icons/ri";
 import { motion } from "framer-motion";
 const GetStarted = () => {
     return (
-        <div className="container mx-auto mb-10">
+        <div className="container mx-auto my-20">
             <div className="text-center mb-8">
                 <motion.h2
                     initial={{ y: 100, opacity: 0 }}

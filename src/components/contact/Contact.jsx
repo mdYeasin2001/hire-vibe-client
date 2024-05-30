@@ -14,7 +14,7 @@ const Contact = () => {
                 ease: "easeIn",
                 duration: 1,
             }}
-            className="my-12 w-full bg-center bg-cover" style={{ backgroundImage: `url(${image})` }}>
+            className="mt-24 w-full bg-center bg-cover" style={{ backgroundImage: `url(${image})` }}>
             <div className='w-full h-full bg-gray-900/90 py-8 px-10'>
                 <div className='mb-4'>
                     <h2 className='text-4xl text-center text-white mb-2'>Contact Us</h2>
@@ -65,7 +65,7 @@ const Contact = () => {
                             duration: 1,
                         }}
                     >
-                        <div className="card shrink-0 w-full max-w-sm rounded-none bg-base-100 px-">
+                        <div className="card shrink-0 w-full max-w-sm rounded-lg bg-base-100 p-2">
                             <h2 className='font-semibold text-2xl mt-2 ml-2'>Send Message</h2>
                             <form className="card-body">
                                 <div className="form-control">

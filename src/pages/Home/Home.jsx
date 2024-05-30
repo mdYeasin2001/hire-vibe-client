@@ -1,3 +1,4 @@
+import Faq from "../../components/Faq/Faq";
 import Banner from "../../components/banner/Banner";
 import Contact from "../../components/contact/Contact";
 import GetStarted from "../../components/get start/GetStarted";
@@ -9,6 +10,7 @@ const Home = () => {
             <Banner></Banner>
             <TabCategories></TabCategories>
             <GetStarted></GetStarted>
+            <Faq></Faq>
             <Contact></Contact>
         </div>
     );

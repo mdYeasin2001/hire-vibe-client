@@ -9,23 +9,23 @@ const Navbar = () => {
     const { user, logout } = useContext(AuthContext)
 
     const navLinks = <>
-        <li className="text-black lg:text-white font-medium text-lg"><Link to="/">Home</Link></li>
-        <li className="text-black lg:text-white font-medium text-lg"><Link to="/all-jobs">All Jobs</Link></li>
+        <li className="text-black font-medium text-lg"><Link to="/">Home</Link></li>
+        <li className="text-black font-medium text-lg"><Link to="/all-jobs">All Jobs</Link></li>
         {
             user && <div className="lg:flex">
-                <li className="text-black lg:text-white font-medium text-lg"><Link to="/applied-jobs">Applied Jobs</Link></li>
-                <li className="text-black lg:text-white font-medium text-lg"><Link to="/add-job">Add a Job</Link></li>
-                <li className="text-black lg:text-white font-medium text-lg"><Link to="/my-jobs">My Jobs</Link></li>
+                <li className="text-black font-medium text-lg"><Link to="/applied-jobs">Applied Jobs</Link></li>
+                <li className="text-black font-medium text-lg"><Link to="/add-job">Add a Job</Link></li>
+                <li className="text-black font-medium text-lg"><Link to="/my-jobs">My Jobs</Link></li>
             </div>
         }
-        <li className="text-black lg:text-white font-medium text-lg"><Link to="/blogs">Blogs</Link></li>
+        <li className="text-black font-medium text-lg"><Link to="/blogs">Blogs</Link></li>
 
         <li><ToggleTheme></ToggleTheme></li>
 
     </>
     return (
         <>
-            <div className="navbar bg-gradient-to-r from-[#1488CC] to-[#2B32B2] py-2 md:py-4 px-2 md:px-8">
+            <div className="navbar  py-2 md:py-4 px-2 md:px-8">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -47,7 +47,7 @@ const Navbar = () => {
                                     </ul>
                                 </div>
                                     :
-                                    <li className="text-black lg:text-white font-medium text-lg block lg:hidden"><Link to="/login"><button>Login</button></Link></li>
+                                    <li className="text-black font-medium text-lg block lg:hidden"><Link to="/login"><button>Login</button></Link></li>
                             }
 
                         </ul>
@@ -72,7 +72,7 @@ const Navbar = () => {
                             </ul>
                         </div>
                             :
-                            <Link to="/login"><button className="text-white font-bold border px-4 py-2 hover:text-black hover:bg-white rounded-sm transition-all duration-500">Login</button></Link>
+                            <Link to="/login"><button className="bg-gradient-to-r from-[#1488CC] to-[#2B32B2] font-bold border px-4 py-2 text-white hover:text-black hover:bg-white rounded-sm transition-all duration-500">Login</button></Link>
                     }
 
 
