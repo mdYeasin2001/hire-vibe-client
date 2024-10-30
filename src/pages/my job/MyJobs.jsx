@@ -13,7 +13,7 @@ const MyJobs = () => {
     const [jobs, setJobs] = useState([])
 
     const getData = async () => {
-        const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/${user?.email}`, { withCredentials: true })
+        const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/get-mine/${user?.email}`, { withCredentials: true })
         setJobs(data)
     }
 
@@ -79,7 +79,7 @@ const MyJobs = () => {
                             jobs.map((job, index) => <tr key={job._id}>
                                 <th>{index + 1}</th>
                                 <td className="font-semibold text-lg text-[#2B32B2]">{job.job_title}</td>
-                                <td>{job.posting_Date}</td>
+                                <td>{job.posting_date}</td>
                                 <td>{new Date(job.deadline).toLocaleDateString()}</td>
                                 <td>{job.salary}</td>
                                 <td><div>

@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
-    errorElement:<ErrorPage></ErrorPage>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         element: <PrivateRoute>
           <DetailsJob></DetailsJob>
         </PrivateRoute>,
-        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/job/${params.id}`)
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/jobs/${params.id}`)
       },
       {
         path: "/add-job",

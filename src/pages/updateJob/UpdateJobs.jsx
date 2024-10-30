@@ -2,17 +2,18 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../provider/FirebaseProvider";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const UpdateJobs = () => {
     const job = useLoaderData()
     const { user } = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const { _id, job_title, job_type,
-        deadline, salary, description, posting_Date,
-        pictureURL } = job;
+        deadline, salary, description, posting_date,
+        picture_url } = job;
 
     const [startDate, setStartDate] = useState(new Date(deadline) || new Date());
 
@@ -21,27 +22,28 @@ const UpdateJobs = () => {
         e.preventDefault()
         const form = e.target;
         const job_title = form.job_title.value;
-        const pictureURL = form.pictureURL.value;
+        const picture_url = form.pictureURL.value;
         const description = form.description.value;
         const job_type = form.category.value;
         const salary = form.salary.value;
-        const posting_Date = form.postingDate.value;
+        const posting_date = form.postingDate.value;
         const deadline = startDate;
 
         const jobData = {
             job_title,
-            pictureURL,
+            picture_url,
             description,
             job_type,
             salary,
-            posting_Date,
+            posting_date,
             deadline,
         }
 
         try {
-            const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/job/${_id}`, jobData)
+            const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/jobs/${_id}`, jobData)
             console.log(data)
             toast.success('Job Data Updated Successfully')
+            navigate('/my-jobs')
         }
         catch (err) {
             console.error(err)
@@ -94,7 +96,7 @@ const UpdateJobs = () => {
                         </label>
                         <label className="input-group">
                             <input type="text" name="pictureURL"
-                                defaultValue={pictureURL}
+                                defaultValue={picture_url}
                                 placeholder="Picture URL" className="input input-bordered w-full" required />
                         </label>
                     </div>
@@ -148,7 +150,7 @@ const UpdateJobs = () => {
                         </label>
                         <label className="input-group">
                             <input type="date" name="postingDate"
-                                defaultValue={posting_Date}
+                                defaultValue={posting_date}
                                 placeholder="Job Posting Date" className="input input-bordered w-full" required />
                         </label>
                     </div>

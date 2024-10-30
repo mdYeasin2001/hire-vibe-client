@@ -53,7 +53,7 @@ const AllJobs = () => {
                             jobs.map((job, index) => <tr key={job._id}>
                                 <th>{index + 1}</th>
                                 <td className="font-semibold text-lg text-[#2B32B2]">{job.job_title}</td>
-                                <td>{job.posting_Date}</td>
+                                <td>{job.posting_date}</td>
                                 <td>{new Date(job.deadline).toLocaleDateString()}</td>
                                 <td>{job.salary}</td>
                                 <td><Link to={`/jobDetails/${job._id}`}><button className=" px-3 text-white rounded-lg py-2 bg-gradient-to-r from-[#1488CC] to-[#2B32B2] cursor-pointer">View Details</button></Link></td>
