@@ -2,9 +2,11 @@
 const ToggleTheme = () => {
     const setDarkMode = () => {
         document.querySelector("body").setAttribute('data-theme', 'dark')
+        document.querySelector("body").classList.add('dark')
     }
     const setLightMode = () => {
         document.querySelector("body").setAttribute('data-theme', 'light')
+        document.querySelector("body").classList.remove('dark')
     }
 
     const toggleTheme = (e) => {

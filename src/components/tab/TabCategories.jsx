@@ -49,7 +49,7 @@ const TabCategories = () => {
                         opacity: { duration: 0.2 },
                         ease: "easeIn",
                     }}
-                    className='text-3xl md:text-4xl lg:text-5xl font-bold text-center text-gray-800 mb-4'
+                    className='text-3xl md:text-4xl lg:text-5xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4'
                 >
                     Find Jobs by Category
                 </motion.h1>
@@ -63,7 +63,7 @@ const TabCategories = () => {
                         opacity: { duration: 0.2 },
                         ease: "easeIn",
                     }}
-                    className='max-w-2xl mx-auto mb-10 text-center text-gray-600 text-lg'
+                    className='max-w-2xl mx-auto mb-10 text-center text-gray-600 dark:text-gray-300 text-lg'
                 >
                     Explore diverse opportunities tailored to your lifestyle: on-site, remote, hybrid, and part-time positions available to suit your preferences
                 </motion.p>
@@ -84,7 +84,7 @@ const TabCategories = () => {
                             <Tab
                                 key={index}
                                 className={`px-6 py-2.5 text-sm sm:text-base font-medium !rounded-full cursor-pointer transition-all duration-200 outline-none
-                                         ${tabIndexMap[activeTabIndex] === tabName ? '!bg-indigo-600 !text-white' : 'hover:bg-indigo-50 hover:text-indigo-600'}`}
+                                         ${tabIndexMap[activeTabIndex] === tabName ? '!bg-indigo-600 !text-white' : 'hover:bg-indigo-50 dark:hover:bg-indigo-900 hover:text-indigo-600 dark:hover:text-indigo-300 dark:text-gray-200'}`}
                             >
                                 {tabName}
                             </Tab>
@@ -123,8 +123,8 @@ const TabCategories = () => {
                                 animate={{ opacity: 1 }}
                                 className='text-center py-10'
                             >
-                                <p className='text-xl text-gray-600 font-medium'>No jobs found in this category</p>
-                                <p className='text-gray-500 mt-2'>Please check back later or try a different category</p>
+                                <p className='text-xl text-gray-600 dark:text-gray-300 font-medium'>No jobs found in this category</p>
+                                <p className='text-gray-500 dark:text-gray-400 mt-2'>Please check back later or try a different category</p>
                             </motion.div>
                         )}
                     </>
