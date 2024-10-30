@@ -5,19 +5,37 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from "framer-motion";
 
+const tabIndexMap = {
+    0: 'All',
+    1: 'On-Site',
+    2: 'Remote',
+    3: 'Hybrid',
+    4: 'Part-Time'
+}
+
 const TabCategories = () => {
     const [jobs, setJobs] = useState([])
+    const [fetching, setFetching] = useState(true)
+    const [activeTabIndex, setSelectedTabIndex] = useState(0)
 
     useEffect(() => {
         const getData = async () => {
-            const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs`)
+            setFetching(true);
+            setJobs([]);
+            const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs${tabIndexMap[activeTabIndex] === 'All' ? '' : `?job_type=${tabIndexMap[activeTabIndex]}`}`)
             setJobs(data)
+            setFetching(false)
         }
         getData()
-    }, [])
+    }, [activeTabIndex])
+
+    const handleSelectTab = (index) => {
+        setSelectedTabIndex(index)
+    }
+    console.log(activeTabIndex);
 
     return (
-        <Tabs>
+        <Tabs selectedIndex={activeTabIndex} onSelect={handleSelectTab}>
             <div className='container px-6 py-10 mx-auto'>
                 <motion.h1
                     initial={{ y: 100, opacity: 0 }}
@@ -48,7 +66,7 @@ const TabCategories = () => {
                     className='flex items-center justify-center font-medium'>
                     <TabList>
                         <Tab>All</Tab>
-                        <Tab>On-Site Job</Tab>
+                        <Tab >On-Site Job</Tab>
                         <Tab>Remote Job</Tab>
                         <Tab>Hybrid</Tab>
                         <Tab>Part-Time</Tab>
@@ -84,7 +102,7 @@ const TabCategories = () => {
                         }}
                         className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
                         {
-                            jobs.filter(j => j.job_type === 'On-Site').map(job => <JobCard key={job._id} job={job}></JobCard>)
+                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
                         }
                     </motion.div>
                 </TabPanel>
@@ -101,7 +119,7 @@ const TabCategories = () => {
                         }}
                         className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
                         {
-                            jobs.filter(j => j.job_type === 'Remote').map(job => <JobCard key={job._id} job={job}></JobCard>)
+                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
                         }
                     </motion.div>
                 </TabPanel>
@@ -118,7 +136,7 @@ const TabCategories = () => {
                         }}
                         className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
                         {
-                            jobs.filter(j => j.job_type === 'Hybrid').map(job => <JobCard key={job._id} job={job}></JobCard>)
+                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
                         }
                     </motion.div>
                 </TabPanel>
@@ -132,13 +150,16 @@ const TabCategories = () => {
                             opacity: { duration: 0.2 },
                             ease: "easeIn",
                             duration: 1,
-                        }} 
+                        }}
                         className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
                         {
-                            jobs.filter(j => j.job_type === 'Part-Time').map(job => <JobCard key={job._id} job={job}></JobCard>)
+                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
                         }
                     </motion.div>
                 </TabPanel>
+                {!fetching && !jobs.length && <div className='text-center text-gray-600'>
+                    No jobs found for this category
+                </div>}
             </div>
         </Tabs>
     );

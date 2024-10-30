@@ -21,7 +21,7 @@ const AddJob = () => {
         const salary = form.salary.value;
         const posting_Date = form.postingDate.value;
         const deadline = startDate;
-        const applicants_number = parseInt(form.applicants.value) 
+        const applicants_number = parseInt(form.applicants.value)
 
         const jobData = {
             job_title,
@@ -39,7 +39,7 @@ const AddJob = () => {
         }
         try {
             const { data } = await axios.post(
-                `${import.meta.env.VITE_API_URL}/job`, jobData
+                `${import.meta.env.VITE_API_URL}/jobs`, jobData
             )
             console.log(data)
             toast.success("Job Added Successfully")
@@ -62,7 +62,7 @@ const AddJob = () => {
                             <input type="text"
                                 defaultValue={user?.displayName}
                                 readOnly
-                                name="name" placeholder="User Name" className="input input-bordered w-full" required/>
+                                name="name" placeholder="User Name" className="input input-bordered w-full" required />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 md:ml-4">
@@ -73,7 +73,7 @@ const AddJob = () => {
                             <input type="email"
                                 defaultValue={user?.email}
                                 readOnly
-                                name="email" placeholder="Email" className="input input-bordered w-full" required/>
+                                name="email" placeholder="Email" className="input input-bordered w-full" required />
                         </label>
                     </div>
                 </div>
@@ -83,7 +83,7 @@ const AddJob = () => {
                             <span className="label-text">Job Title</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="job_title" placeholder="Job Title" className="input input-bordered w-full" required/>
+                            <input type="text" name="job_title" placeholder="Job Title" className="input input-bordered w-full" required />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 md:ml-4">
@@ -91,7 +91,7 @@ const AddJob = () => {
                             <span className="label-text">Picture URL</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="pictureURL" placeholder="Picture URL" className="input input-bordered w-full" required/>
+                            <input type="text" name="pictureURL" placeholder="Picture URL" className="input input-bordered w-full" required />
                         </label>
                     </div>
                 </div>
@@ -102,7 +102,7 @@ const AddJob = () => {
                             <span className="label-text">Job Description</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="description" placeholder="Job Description" className="input input-bordered w-full" required/>
+                            <input type="text" name="description" placeholder="Job Description" className="input input-bordered w-full" required />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 md:ml-4">
@@ -130,7 +130,7 @@ const AddJob = () => {
                             <span className="label-text">SalaryRange</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="salary" placeholder="Salary" className="input input-bordered w-full" required/>
+                            <input type="text" name="salary" placeholder="Salary" className="input input-bordered w-full" required />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 md:ml-4">
@@ -138,7 +138,7 @@ const AddJob = () => {
                             <span className="label-text">Job Posting Date</span>
                         </label>
                         <label className="input-group">
-                            <input type="date" name="postingDate" placeholder="Job Posting Date" className="input input-bordered w-full" required/>
+                            <input type="date" name="postingDate" placeholder="Job Posting Date" className="input input-bordered w-full" required />
                         </label>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ const AddJob = () => {
                             <span className="label-text">Application Deadline</span>
                         </label>
                         <label className="input-group">
-                            <DatePicker className="border w-full p-3 rounded-lg" selected={startDate} onChange={(date) => setStartDate(date)} required/>
+                            <DatePicker className="border w-full p-3 rounded-lg" selected={startDate} onChange={(date) => setStartDate(date)} required />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 md:ml-4">
@@ -158,8 +158,8 @@ const AddJob = () => {
                         </label>
                         <label className="input-group">
                             <input type="number" name="applicants"
-                            value={0} readOnly
-                            placeholder="Applicants Number" className="input input-bordered w-full" required/>
+                                value={0} readOnly
+                                placeholder="Applicants Number" className="input input-bordered w-full" required />
                         </label>
                     </div>
                 </div>

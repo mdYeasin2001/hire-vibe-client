@@ -23,7 +23,7 @@ const Registration = () => {
         const { fullName, email, image, password } = data
 
         if (password.length < 6) {
-            setError('Password should be at leaast 6 characters or longer');
+            setError('Password should be at least 6 characters or longer');
         }
         else if (!/[A-Z]/.test(password)) {
             setError('Must have an Uppercase letter in the password');
