@@ -1,14 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import logo from '../../assets/Logo.png';
 import regImg from '../../assets/reg.jpg'
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { IoMdPhotos } from "react-icons/io";
 import { AuthContext } from "../../provider/FirebaseProvider";
-const Registration = () => {
 
+const Registration = () => {
     const [error, setError] = useState('')
     const { createUser, updateUser, logout } = useContext(AuthContext);
     const navigate = useNavigate()
@@ -51,94 +49,121 @@ const Registration = () => {
             })
     }
 
-
     return (
-        <div className='flex justify-center items-center my-12'>
-            <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl '>
-                <div className='w-full px-6 py-8 md:px-8 lg:w-1/2'>
-                    <div className='flex justify-center mx-auto'>
-                        <img className='w-auto h-7 sm:h-8' src={logo} alt='' />
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 flex justify-center items-center">
+            <div className="max-w-4xl w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+                <div className="flex flex-col lg:flex-row">
+                    <div className="hidden lg:block lg:w-1/2">
+                        <img
+                            src={regImg}
+                            alt="Registration"
+                            className="object-cover w-full h-full"
+                        />
                     </div>
 
-                    <p className='mt-3 text-xl text-center text-gray-600 '>
-                        Get Your Free Account Now.
-                    </p>
-
-                    <div className='flex items-center justify-between mt-4'>
-                        <span className='w-1/5 border-b  lg:w-1/4'></span>
-
-                        <div className='text-xs text-center text-gray-500 uppercase  hover:underline'>
-                            Registration with email
+                    <div className="w-full lg:w-1/2 px-8 py-12 space-y-8">
+                        <div className="text-center">
+                            <Link to="/" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                                Hire<span className="text-gray-800 dark:text-gray-200">Vibe</span>
+                            </Link>
+                            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+                                Create Your Account
+                            </h2>
                         </div>
 
-                        <span className='w-1/5 border-b dark:border-gray-400 lg:w-1/4'></span>
-                    </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        <div>
-                            <label className="input input-bordered flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
-                                <input type="text"
-                                    {...register("fullName", { required: true })}
-                                    className="grow" placeholder="Name" />
-                            </label>
-                            {errors.fullName && <span className="text-red-600">This field is required</span>}
-                        </div>
-                        <div>
-                            <label className="input input-bordered flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" /><path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" /></svg>
-                                <input type="email"
-                                    {...register("email", { required: true })}
-                                    className="grow" placeholder="Email" />
-                            </label>
-                            {errors.email && <span className="text-red-600">This field is required</span>}
-                        </div>
-                        <div>
-                            <label className="input input-bordered flex items-center gap-2">
-                                <IoMdPhotos></IoMdPhotos>
-                                <input type="text"
-                                    {...register("image", { required: true })}
-                                    className="grow" placeholder="PhotoUrl" />
-                            </label>
-                            {errors.image && <span className="text-red-600">This field is required</span>}
-                        </div>
-                        <div>
-                            <label className="input input-bordered flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clipRule="evenodd" /></svg>
-                                <input type="password"
-                                    {...register("password", { required: true })}
-                                    placeholder="password"
-                                    className="grow" />
-                            </label>
-                            {errors.password && <span className="text-red-600">This field is required</span>}
-                        </div>
-                        {
-                            error && <p className="text-red-600 text-center mb-2">{error}</p>
-                        }
-                        <div>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Full Name
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        type="text"
+                                        {...register("fullName", { required: "Full name is required" })}
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                        placeholder="Enter your full name"
+                                    />
+                                    {errors.fullName && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.fullName.message}</p>
+                                    )}
+                                </div>
+                            </div>
 
-                            <input type="submit" value="Register" className="text-lg font-semibold text-center w-full bg-amber-300 py-3 rounded-xl hover:bg-amber-200" />
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Email address
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        type="email"
+                                        {...register("email", { required: "Email is required" })}
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                        placeholder="Enter your email"
+                                    />
+                                    {errors.email && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Photo URL
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        type="text"
+                                        {...register("image", { required: "Photo URL is required" })}
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                        placeholder="Enter photo URL"
+                                    />
+                                    {errors.image && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.image.message}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Password
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        type="password"
+                                        {...register("password", { required: "Password is required" })}
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                        placeholder="Enter your password"
+                                    />
+                                    {errors.password && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {error && (
+                                <div className="text-sm text-red-600 text-center">
+                                    {error}
+                                </div>
+                            )}
+
+                            <button
+                                type="submit"
+                                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
+                            >
+                                Sign up
+                            </button>
+                        </form>
+
+                        <div className="text-center">
+                            <Link
+                                to="/login"
+                                className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
+                            >
+                                Already have an account? Sign in
+                            </Link>
                         </div>
-                    </form>
-
-                    <div className='flex items-center justify-between mt-4'>
-                        <span className='w-1/5 border-b  md:w-1/4'></span>
-
-                        <Link
-                            to='/login'
-                            className='text-xs text-gray-500 uppercase  hover:underline'
-                        >
-                            or sign in
-                        </Link>
-
-                        <span className='w-1/5 border-b  md:w-1/4'></span>
                     </div>
                 </div>
-                <div
-                    className='hidden bg-cover bg-center lg:block lg:w-1/2'
-                    style={{
-                        backgroundImage: `url(${regImg})`,
-                    }}
-                ></div>
             </div>
         </div>
     );

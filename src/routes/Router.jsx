@@ -71,12 +71,12 @@ const router = createBrowserRouter([
       {
         path: "/appliedJob/:id",
         element: <AppliedJob></AppliedJob>,
-        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/appliedJob/${params.id}`)
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/applied-job/${params.id}`)
       },
       {
         path: "/update-job/:id",
         element: <UpdateJobs></UpdateJobs>,
-        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/job/${params.id}`)
+        loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/jobs/${params.id}`)
       }
     ]
   },

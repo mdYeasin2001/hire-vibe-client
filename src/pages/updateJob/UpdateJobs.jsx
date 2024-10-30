@@ -5,173 +5,206 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 
 const UpdateJobs = () => {
-    const job = useLoaderData()
-    const { user } = useContext(AuthContext)
-    const navigate = useNavigate()
+    const job = useLoaderData();
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const { _id, job_title, job_type,
-        deadline, salary, description, posting_date,
-        picture_url } = job;
+    const [startDate, setStartDate] = useState(new Date(job.deadline) || new Date());
 
-    const [startDate, setStartDate] = useState(new Date(deadline) || new Date());
-
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault()
-        const form = e.target;
-        const job_title = form.job_title.value;
-        const picture_url = form.pictureURL.value;
-        const description = form.description.value;
-        const job_type = form.category.value;
-        const salary = form.salary.value;
-        const posting_date = form.postingDate.value;
-        const deadline = startDate;
-
+    const onSubmit = async (formData) => {
         const jobData = {
-            job_title,
-            picture_url,
-            description,
-            job_type,
-            salary,
-            posting_date,
-            deadline,
+            job_title: formData.job_title,
+            picture_url: formData.pictureURL,
+            description: formData.description,
+            job_type: formData.category,
+            salary: formData.salary,
+            posting_date: formData.postingDate,
+            deadline: startDate,
         }
 
         try {
-            const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/jobs/${_id}`, jobData)
-            console.log(data)
-            toast.success('Job Data Updated Successfully')
-            navigate('/my-jobs')
-        }
-        catch (err) {
-            console.error(err)
-            toast.error(err.message)
+            const { data } = await axios.put(
+                `${import.meta.env.VITE_API_URL}/jobs/${job._id}`,
+                jobData,
+                { withCredentials: true }
+            );
+            toast.success("Job Updated Successfully");
+            navigate('/my-jobs');
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Something went wrong");
         }
     }
 
     return (
-        <div className="py-24 px-10 md:px-24 lg:px-96">
-            <h2 className="text-4xl font-extrabold text-center mb-6">Update Your Job</h2>
-            <form onSubmit={handleFormSubmit}>
-                <div className="md:flex mb-8">
-                    <div className="form-control md:w-1/2">
-                        <label className="label">
-                            <span className="label-text">User Name</span>
-                        </label>
-                        <label className="input-group">
-                            <input type="text"
-                                defaultValue={user?.displayName}
-                                readOnly
-                                name="name" placeholder="User Name" className="input input-bordered w-full" required />
-                        </label>
-                    </div>
-                    <div className="form-control md:w-1/2 md:ml-4">
-                        <label className="label">
-                            <span className="label-text">Email</span>
-                        </label>
-                        <label className="input-group">
-                            <input type="email"
-                                defaultValue={user?.email}
-                                readOnly
-                                name="email" placeholder="Email" className="input input-bordered w-full" required />
-                        </label>
-                    </div>
-                </div>
-                <div className="md:flex mb-8">
-                    <div className="form-control md:w-1/2">
-                        <label className="label">
-                            <span className="label-text">Job Title</span>
-                        </label>
-                        <label className="input-group">
-                            <input type="text" name="job_title"
-                                defaultValue={job_title}
-                                placeholder="Job Title" className="input input-bordered w-full" required />
-                        </label>
-                    </div>
-                    <div className="form-control md:w-1/2 md:ml-4">
-                        <label className="label">
-                            <span className="label-text">Picture URL</span>
-                        </label>
-                        <label className="input-group">
-                            <input type="text" name="pictureURL"
-                                defaultValue={picture_url}
-                                placeholder="Picture URL" className="input input-bordered w-full" required />
-                        </label>
-                    </div>
-                </div>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                    <h2 className="text-4xl font-extrabold text-center mb-8 text-gray-900 dark:text-white">
+                        Update Job
+                    </h2>
 
-                <div className="md:flex mb-8">
-                    <div className="form-control md:w-1/2">
-                        <label className="label">
-                            <span className="label-text">Job Description</span>
-                        </label>
-                        <label className="input-group">
-                            <input type="text" name="description"
-                                defaultValue={description}
-                                placeholder="Job Description" className="input input-bordered w-full" required />
-                        </label>
-                    </div>
-                    <div className="form-control md:w-1/2 md:ml-4">
-                        <label className="label">
-                            <span className="label-text">Job Category</span>
-                        </label>
-                        <label className="input-group">
-                            <select
-                                name='category'
-                                id='category'
-                                defaultValue={job_type}
-                                className='border p-3 rounded-md w-full' required
-                            >
-                                <option value='On-Site'>On-Site</option>
-                                <option value='Remote'>Remote</option>
-                                <option value='Hybrid'>Hybrid</option>
-                                <option value='Part-Time'>Part-Time</option>
-                            </select>
-                        </label>
-                    </div>
-                </div>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* User Info Section */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    User Name
+                                </label>
+                                <input
+                                    type="text"
+                                    defaultValue={user?.displayName}
+                                    readOnly
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                                />
+                            </div>
 
-                <div className="md:flex mb-8">
-                    <div className="form-control md:w-1/2">
-                        <label className="label">
-                            <span className="label-text">SalaryRange</span>
-                        </label>
-                        <label className="input-group">
-                            <input type="text" name="salary"
-                                defaultValue={salary}
-                                placeholder="Salary" className="input input-bordered w-full" required />
-                        </label>
-                    </div>
-                    <div className="form-control md:w-1/2 md:ml-4">
-                        <label className="label">
-                            <span className="label-text">Job Posting Date</span>
-                        </label>
-                        <label className="input-group">
-                            <input type="date" name="postingDate"
-                                defaultValue={posting_date}
-                                placeholder="Job Posting Date" className="input input-bordered w-full" required />
-                        </label>
-                    </div>
-                </div>
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    defaultValue={user?.email}
+                                    readOnly
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white"
+                                />
+                            </div>
 
-                <div className="md:flex mb-8">
-                    <div className="form-control md:w-1/2">
-                        <label className="label">
-                            <span className="label-text">Application Deadline</span>
-                        </label>
-                        <label className="input-group">
-                            <DatePicker className="border w-full p-3 rounded-lg"
-                                selected={startDate} onChange={(date) => setStartDate(date)} required />
-                        </label>
-                    </div>
-                </div>
-                <input type="submit" value="Update" className="btn btn-block bg-gradient-to-r from-[#1488CC] to-[#2B32B2] text-white" />
+                            {/* Job Details Section */}
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Job Title
+                                </label>
+                                <input
+                                    {...register("job_title", {
+                                        required: "Job title is required",
+                                        minLength: {
+                                            value: 3,
+                                            message: "Title must be at least 3 characters"
+                                        }
+                                    })}
+                                    defaultValue={job.job_title}
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                                />
+                                {errors.job_title && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.job_title.message}</p>
+                                )}
+                            </div>
 
-            </form>
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Picture URL
+                                </label>
+                                <input
+                                    {...register("pictureURL", { required: "Picture URL is required" })}
+                                    defaultValue={job.picture_url}
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                                />
+                                {errors.pictureURL && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.pictureURL.message}</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Job Description
+                                </label>
+                                <textarea
+                                    {...register("description", { required: "Description is required" })}
+                                    defaultValue={job.description}
+                                    rows={4}
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                                ></textarea>
+                                {errors.description && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Job Category
+                                </label>
+                                <select
+                                    {...register("category", { required: "Category is required" })}
+                                    defaultValue={job.job_type}
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                                >
+                                    <option value="On-Site">On-Site</option>
+                                    <option value="Remote">Remote</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                    <option value="Part-Time">Part-Time</option>
+                                </select>
+                                {errors.category && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Salary Range
+                                </label>
+                                <input
+                                    {...register("salary", {
+                                        required: "Salary range is required",
+                                        pattern: {
+                                            value: /^\$[\d,]+-\$[\d,]+$/,
+                                            message: "Format: $min-$max (e.g. $50,000-$80,000)"
+                                        }
+                                    })}
+                                    defaultValue={job.salary}
+                                    placeholder="$50,000-$80,000"
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                                />
+                                {errors.salary && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.salary.message}</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Posting Date
+                                </label>
+                                <input
+                                    type="date"
+                                    {...register("postingDate", { required: "Posting date is required" })}
+                                    defaultValue={job.posting_date}
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                                />
+                                {errors.postingDate && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.postingDate.message}</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    Application Deadline
+                                </label>
+                                <DatePicker
+                                    selected={startDate}
+                                    onChange={(date) => setStartDate(date)}
+                                    minDate={new Date()}
+                                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full bg-gradient-to-r from-indigo-600 to-indigo-800 hover:from-indigo-700 hover:to-indigo-900 text-white font-medium py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Update Job
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 };
+
+
 
 export default UpdateJobs;

@@ -1,15 +1,24 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const AllJobs = () => {
     const [jobs, setJobs] = useState([])
     const [searchValue, setSearchValue] = useState('')
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const getData = async () => {
-            const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs${searchValue ? `?search=${searchValue}` : ''}`)
-            setJobs(data)
+            try {
+                setLoading(true)
+                const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs${searchValue ? `?search=${searchValue}` : ''}`)
+                setJobs(data)
+            } catch (error) {
+                console.error("Error fetching jobs:", error)
+            } finally {
+                setLoading(false)
+            }
         }
         getData()
     }, [searchValue])
@@ -24,44 +33,96 @@ const AllJobs = () => {
     }
 
     return (
-        <div className="m-8 p-4">
-            <h2 className="text-3xl text-center font-bold mb-4">All Jobs</h2>
-            <p className="text-center text-gray-500 text-lg mb-8">Explore diverse remote opportunities in tech: development, design, management, and more.</p>
-            <form className="flex max-w-[400px] gap-2 items-center justify-center mx-auto my-10" onSubmit={handleSearch}>
-                <input type="text"
-                    name="search"
-                    placeholder="Search" className="input input-bordered w-full" />
-                <div className="flex items-center justify-center">
-                    <input type="submit" className='text-white bg-[#2B32B2] px-6 py-3 rounded-lg cursor-pointer font-semibold' value="Search" />
+        <div className="container mx-auto px-4 py-12">
+            <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="text-center mb-12"
+            >
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+                    Available Jobs
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+                    Find your dream job from our curated listings
+                </p>
+            </motion.div>
+
+            <motion.form
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="max-w-xl mx-auto mb-12"
+                onSubmit={handleSearch}
+            >
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Search for jobs..."
+                        className="flex-1 px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                    />
+                    <button
+                        type="submit"
+                        className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-semibold rounded-lg transition-colors duration-300"
+                    >
+                        Search
+                    </button>
                 </div>
-            </form>
-            <div className="overflow-x-auto">
-                <table className="table">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Job Title</th>
-                            <th>Job Posting Date</th>
-                            <th>Application Deadline</th>
-                            <th>Salary range</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            jobs.map((job, index) => <tr key={job._id}>
-                                <th>{index + 1}</th>
-                                <td className="font-semibold text-lg text-[#2B32B2]">{job.job_title}</td>
-                                <td>{job.posting_date}</td>
-                                <td>{new Date(job.deadline).toLocaleDateString()}</td>
-                                <td>{job.salary}</td>
-                                <td><Link to={`/jobDetails/${job._id}`}><button className=" px-3 text-white rounded-lg py-2 bg-gradient-to-r from-[#1488CC] to-[#2B32B2] cursor-pointer">View Details</button></Link></td>
-                            </tr>)
-                        }
-                    </tbody>
-                </table>
-            </div>
+            </motion.form>
+
+            <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+            >
+                {loading ? (
+                    <div className="flex justify-center items-center h-64">
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-600"></div>
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead className="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">#</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Job Title</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Posted On</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Deadline</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Salary Range</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                {jobs.map((job, index) => (
+                                    <tr key={job._id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                        <td className="px-6 py-4 text-gray-700 dark:text-gray-200">{index + 1}</td>
+                                        <td className="px-6 py-4">
+                                            <span className="font-semibold text-indigo-600 dark:text-indigo-400">
+                                                {job.job_title}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-700 dark:text-gray-200">{job.posting_date}</td>
+                                        <td className="px-6 py-4 text-gray-700 dark:text-gray-200">
+                                            {new Date(job.deadline).toLocaleDateString()}
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-700 dark:text-gray-200">{job.salary}</td>
+                                        <td className="px-6 py-4">
+                                            <Link
+                                                to={`/jobDetails/${job._id}`}
+                                                className="inline-block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white text-sm font-medium rounded-lg transition-colors duration-300 whitespace-nowrap"
+                                            >
+                                                View Details
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </motion.div>
         </div>
     );
 };

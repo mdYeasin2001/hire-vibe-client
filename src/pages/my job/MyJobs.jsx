@@ -6,23 +6,30 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 const MyJobs = () => {
     const { user } = useContext(AuthContext);
-
-    const [jobs, setJobs] = useState([])
+    const [jobs, setJobs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getData = async () => {
-        const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/get-mine/${user?.email}`, { withCredentials: true })
-        setJobs(data)
+        try {
+            setLoading(true);
+            const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs/get-mine/${user?.email}`, { withCredentials: true });
+            setJobs(data);
+        } catch (error) {
+            console.error("Error fetching jobs:", error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
-        getData()
-    }, [user])
+        getData();
+    }, [user]);
 
     const handleDelete = (id) => {
-
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -34,69 +41,105 @@ const MyJobs = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`)
-                    console.log(data)
+                    const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`);
                     if (data.deletedCount > 0) {
                         Swal.fire({
                             title: "Deleted!",
                             text: "Your file has been deleted.",
                             icon: "success"
                         });
-                        getData()
+                        getData();
                     }
-
-
+                } catch (err) {
+                    console.log(err);
+                    toast.error(err.message);
                 }
-                catch (err) {
-                    console.log(err)
-                    toast.error(err.message)
-                }
-
             }
-        })
+        });
     }
 
-
     return (
-        <div className="m-8 p-4">
-            <h2 className="text-3xl text-center font-bold mb-4">My Jobs: {jobs.length}</h2>
-            <p className="text-center text-gray-500 text-lg mb-8">Jobs that you posted to hire employees</p>
-            <div className="overflow-x-auto">
-                <table className="table">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Job Title</th>
-                            <th>Job Posting Date</th>
-                            <th>Application Deadline</th>
-                            <th>Salary range</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            jobs.map((job, index) => <tr key={job._id}>
-                                <th>{index + 1}</th>
-                                <td className="font-semibold text-lg text-[#2B32B2]">{job.job_title}</td>
-                                <td>{job.posting_date}</td>
-                                <td>{new Date(job.deadline).toLocaleDateString()}</td>
-                                <td>{job.salary}</td>
-                                <td><div>
-                                    <Link to={`/jobDetails/${job._id}`}><button className=" px-3 text-white rounded-lg py-2 bg-gradient-to-r from-[#1488CC] to-[#2B32B2] cursor-pointer">View Details</button></Link>
-                                    <div className="flex items-center mt-4 text-xl space-x-8">
-                                        <Link to={`/update-job/${job._id}`}>
-                                            <FaRegEdit className="cursor-pointer"></FaRegEdit>
-                                        </Link>
-                                        <MdDeleteOutline onClick={() => handleDelete(job._id)} className="text-red-500 cursor-pointer"></MdDeleteOutline>
-                                    </div>
+        <div className="container mx-auto px-4 py-12">
+            <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="text-center mb-12"
+            >
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+                    My Jobs: {jobs.length}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+                    Jobs that you posted to hire employees
+                </p>
+            </motion.div>
 
-                                </div></td>
-                            </tr>)
-                        }
-                    </tbody>
-                </table>
-            </div>
+            <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+            >
+                {loading ? (
+                    <div className="flex justify-center items-center h-64">
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-600"></div>
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead className="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">#</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Job Title</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Posted On</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Deadline</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Salary Range</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-200">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                {jobs.map((job, index) => (
+                                    <tr key={job._id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                        <td className="px-6 py-4 text-gray-700 dark:text-gray-200">{index + 1}</td>
+                                        <td className="px-6 py-4">
+                                            <span className="font-semibold text-indigo-600 dark:text-indigo-400">
+                                                {job.job_title}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-700 dark:text-gray-200">{job.posting_date}</td>
+                                        <td className="px-6 py-4 text-gray-700 dark:text-gray-200">
+                                            {new Date(job.deadline).toLocaleDateString()}
+                                        </td>
+                                        <td className="px-6 py-4 text-gray-700 dark:text-gray-200">{job.salary}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex flex-col sm:flex-row gap-2">
+                                                <Link
+                                                    to={`/jobDetails/${job._id}`}
+                                                    className="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white text-sm font-medium rounded-lg transition-colors duration-300 whitespace-nowrap"
+                                                >
+                                                    View Details
+                                                </Link>
+                                                <Link
+                                                    to={`/update-job/${job._id}`}
+                                                    className="inline-flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors duration-300 whitespace-nowrap"
+                                                >
+                                                    <FaRegEdit className="mr-1" /> Edit
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(job._id)}
+                                                    className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-300 whitespace-nowrap"
+                                                >
+                                                    <MdDeleteOutline className="mr-1" /> Delete
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </motion.div>
         </div>
     );
 };

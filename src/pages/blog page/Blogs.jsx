@@ -1,24 +1,66 @@
-
 const Blogs = () => {
     return (
-        <div className="mx-auto container border h-screen my-8 p-8">
-            <h1 className="text-3xl font-bold mb-8">Welcome to Our Blog</h1>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+                <h1 className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Programming Insights</h1>
 
-            <div className="mb-12">
-                <h2 className="text-xl font-semibold mb-4">Understanding Access Tokens and Refresh Tokens</h2>
-                <p className="mb-4">In modern web development, security is paramount. Access tokens and refresh tokens play crucial roles in ensuring secure communication between clients and servers. But what are they exactly?</p>
-                <p className="mb-4"><strong>Access Token:</strong> An access token is a credential used by a client to access protected resources on behalf of a user. It acts as a key, granting limited access to specific resources.</p>
-                <p className="mb-4"><strong>Refresh Token:</strong> A refresh token is a special kind of token that can be used to obtain a new access token. It is typically longer-lived and allows the client to refresh the access token without requiring the user to reauthenticate.</p>
-            </div>
+                <div className="space-y-8">
+                    <article className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl transition-all hover:shadow-2xl">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Modern JavaScript Features Every Developer Should Know</h2>
+                        <div className="prose dark:prose-invert max-w-none">
+                            <p className="mb-6 text-gray-600 dark:text-gray-300">JavaScript has evolved significantly over recent years. Here are some essential modern features that can improve your code quality and productivity:</p>
+                            <ul className="space-y-4 mb-6">
+                                <li className="flex items-start space-x-3">
+                                    <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100 dark:bg-indigo-900">
+                                        <svg className="h-4 w-4 text-indigo-600 dark:text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </span>
+                                    <span className="text-gray-700 dark:text-gray-300"><strong className="text-gray-900 dark:text-white">Optional Chaining (?.):</strong> Safely access nested object properties without explicit null checks</span>
+                                </li>
+                                <li className="flex items-start space-x-3">
+                                    <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100 dark:bg-indigo-900">
+                                        <svg className="h-4 w-4 text-indigo-600 dark:text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </span>
+                                    <span className="text-gray-700 dark:text-gray-300"><strong className="text-gray-900 dark:text-white">Nullish Coalescing (??):</strong> Provide fallback values only for null/undefined</span>
+                                </li>
+                                <li className="flex items-start space-x-3">
+                                    <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100 dark:bg-indigo-900">
+                                        <svg className="h-4 w-4 text-indigo-600 dark:text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </span>
+                                    <span className="text-gray-700 dark:text-gray-300"><strong className="text-gray-900 dark:text-white">Array Methods:</strong> map, filter, reduce for functional programming approaches</span>
+                                </li>
+                            </ul>
+                            <p className="text-gray-600 dark:text-gray-300">These features make code more readable and maintainable while reducing common runtime errors.</p>
+                        </div>
+                    </article>
 
-            <div className="mb-12">
-                <h2 className="text-xl font-semibold mb-4">Introduction to Express.js</h2>
-                <p className="mb-4">Express.js is a minimal and flexible Node.js web application framework that provides a robust set of features for building web and mobile applications. It simplifies the process of creating APIs and handling HTTP requests by providing a thin layer of fundamental web application features.</p>
-            </div>
-
-            <div className="mb-12">
-                <h2 className="text-xl font-semibold mb-4">Exploring Nest.js</h2>
-                <p className="mb-4">Nest.js is a progressive Node.js framework for building efficient, reliable, and scalable server-side applications. It is built with TypeScript and takes advantage of modern JavaScript features and design patterns.</p>
+                    <article className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl transition-all hover:shadow-2xl">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">React Performance Optimization Techniques</h2>
+                        <div className="prose dark:prose-invert max-w-none">
+                            <p className="mb-6 text-gray-600 dark:text-gray-300">Optimizing React applications is crucial for better user experience. Here are key techniques:</p>
+                            <div className="space-y-4 mb-6">
+                                <div className="flex items-start space-x-3">
+                                    <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 font-semibold text-sm">1</span>
+                                    <span className="text-gray-700 dark:text-gray-300"><strong className="text-gray-900 dark:text-white">React.memo():</strong> Prevent unnecessary re-renders of functional components by memoizing them</span>
+                                </div>
+                                <div className="flex items-start space-x-3">
+                                    <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 font-semibold text-sm">2</span>
+                                    <span className="text-gray-700 dark:text-gray-300"><strong className="text-gray-900 dark:text-white">useCallback:</strong> Memoize functions to maintain referential equality across renders</span>
+                                </div>
+                                <div className="flex items-start space-x-3">
+                                    <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 font-semibold text-sm">3</span>
+                                    <span className="text-gray-700 dark:text-gray-300"><strong className="text-gray-900 dark:text-white">useMemo:</strong> Cache expensive computations to avoid redundant calculations</span>
+                                </div>
+                            </div>
+                            <p className="text-gray-600 dark:text-gray-300">Implementing these optimizations can significantly improve your application&apos;s performance.</p>
+                        </div>
+                    </article>
+                </div>
             </div>
         </div>
     );
