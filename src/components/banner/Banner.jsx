@@ -29,19 +29,19 @@ const Banner = () => {
                 className='mySwiper'
             >
                 <SwiperSlide>
-                    <Slide image={slide1}> 
+                    <Slide image={slide1}>
                     </Slide>
                 </SwiperSlide>
                 <SwiperSlide>
-                <Slide image={slide2}> 
+                    <Slide image={slide2}>
                     </Slide>
                 </SwiperSlide>
                 <SwiperSlide>
-                <Slide image={slide3}> 
+                    <Slide image={slide3}>
                     </Slide>
                 </SwiperSlide>
                 <SwiperSlide>
-                <Slide image={slide4}> 
+                    <Slide image={slide4}>
                     </Slide>
                 </SwiperSlide>
             </Swiper>
