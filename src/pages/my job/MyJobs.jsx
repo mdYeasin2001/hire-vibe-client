@@ -41,7 +41,7 @@ const MyJobs = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`);
+                    const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/jobs/${id}`, { withCredentials: true });
                     if (data.deletedCount > 0) {
                         Swal.fire({
                             title: "Deleted!",
