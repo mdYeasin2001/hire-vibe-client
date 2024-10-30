@@ -4,41 +4,37 @@ import { Link } from "react-router-dom";
 
 const AllJobs = () => {
     const [jobs, setJobs] = useState([])
-    const [searchJobs, setSearchJobs] = useState([])
+    const [searchValue, setSearchValue] = useState('')
 
     useEffect(() => {
         const getData = async () => {
-            const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs`)
+            const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs${searchValue ? `?search=${searchValue}` : ''}`)
             setJobs(data)
-            setSearchJobs(data)
         }
         getData()
-    }, [])
+    }, [searchValue])
 
-    const handleSearch = (e)=>{
+    const handleSearch = (e) => {
         e.preventDefault()
         const form = e.target;
-        const search = form.search.value.toLowerCase();
-        const filteredJobs = jobs.filter(job=>
-            job.job_title.toLowerCase().includes(search)
-        )
-        setSearchJobs(filteredJobs)
+        const searchValue = form.search.value.trim();
+        if (searchValue) {
+            setSearchValue(searchValue)
+        }
     }
 
     return (
         <div className="m-8 p-4">
             <h2 className="text-3xl text-center font-bold mb-4">All Jobs</h2>
             <p className="text-center text-gray-500 text-lg mb-8">Explore diverse remote opportunities in tech: development, design, management, and more.</p>
-            <div className="flex items-center justify-center">
-                <form onSubmit={handleSearch}>
-                    <input type="text"
+            <form className="flex max-w-[400px] gap-2 items-center justify-center mx-auto my-10" onSubmit={handleSearch}>
+                <input type="text"
                     name="search"
-                    placeholder="Search" className="input input-bordered w-full mt-10" />
-                    <div className="flex items-center justify-center">
-                        <input type="submit" className='text-white bg-[#2B32B2] px-6 py-3 rounded-lg font-semibold mt-2' value="Search" />
-                    </div>
-                </form>
-            </div>
+                    placeholder="Search" className="input input-bordered w-full" />
+                <div className="flex items-center justify-center">
+                    <input type="submit" className='text-white bg-[#2B32B2] px-6 py-3 rounded-lg cursor-pointer font-semibold' value="Search" />
+                </div>
+            </form>
             <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}
@@ -54,7 +50,7 @@ const AllJobs = () => {
                     </thead>
                     <tbody>
                         {
-                            searchJobs.map((job, index) => <tr key={job._id}>
+                            jobs.map((job, index) => <tr key={job._id}>
                                 <th>{index + 1}</th>
                                 <td className="font-semibold text-lg text-[#2B32B2]">{job.job_title}</td>
                                 <td>{job.posting_Date}</td>
