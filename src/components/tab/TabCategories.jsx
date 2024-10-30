@@ -5,15 +5,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from "framer-motion";
 
-const tabIndexMap = {
-    0: 'All',
-    1: 'On-Site',
-    2: 'Remote',
-    3: 'Hybrid',
-    4: 'Part-Time'
-}
-
 const TabCategories = () => {
+    const tabIndexMap = {
+        0: 'All',
+        1: 'On-Site',
+        2: 'Remote',
+        3: 'Hybrid',
+        4: 'Part-Time'
+    }
     const [jobs, setJobs] = useState([])
     const [fetching, setFetching] = useState(true)
     const [activeTabIndex, setSelectedTabIndex] = useState(0)
@@ -22,9 +21,14 @@ const TabCategories = () => {
         const getData = async () => {
             setFetching(true);
             setJobs([]);
-            const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs${tabIndexMap[activeTabIndex] === 'All' ? '' : `?job_type=${tabIndexMap[activeTabIndex]}`}`)
-            setJobs(data)
-            setFetching(false)
+            try {
+                const { data } = await axios(`${import.meta.env.VITE_API_URL}/jobs${tabIndexMap[activeTabIndex] === 'All' ? '' : `?job_type=${tabIndexMap[activeTabIndex]}`}`)
+                setJobs(data)
+            } catch (error) {
+                console.error("Error fetching jobs:", error);
+            } finally {
+                setFetching(false)
+            }
         }
         getData()
     }, [activeTabIndex])
@@ -32,136 +36,102 @@ const TabCategories = () => {
     const handleSelectTab = (index) => {
         setSelectedTabIndex(index)
     }
-    console.log(activeTabIndex);
 
     return (
         <Tabs selectedIndex={activeTabIndex} onSelect={handleSelectTab}>
-            <div className='container px-6 py-10 mx-auto'>
+            <div className='container px-4 sm:px-6 py-10 mx-auto'>
                 <motion.h1
                     initial={{ y: 100, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{
-                        delay: 0.2, y: { type: "spring", stiffness: 60 }, opacity: { duration: 0.2 },
+                        delay: 0.2,
+                        y: { type: "spring", stiffness: 60 },
+                        opacity: { duration: 0.2 },
                         ease: "easeIn",
-                        duration: 1,
                     }}
-                    className='text-2xl md:text-5xl font-semibold text-center text-gray-800'>Job by category</motion.h1>
+                    className='text-3xl md:text-4xl lg:text-5xl font-bold text-center text-gray-800 mb-4'
+                >
+                    Find Jobs by Category
+                </motion.h1>
+
                 <motion.p
                     initial={{ y: 100, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{
-                        delay: 0.2, y: { type: "spring", stiffness: 60 }, opacity: { duration: 0.2 },
+                        delay: 0.3,
+                        y: { type: "spring", stiffness: 60 },
+                        opacity: { duration: 0.2 },
                         ease: "easeIn",
-                        duration: 1,
                     }}
-                    className='max-w-2xl mx-auto my-6 text-center text-gray-500 text-lg'>Explore diverse opportunities tailored to your lifestyle: on-site, remote, hybrid, and part-time positions available to suit your preferences</motion.p>
+                    className='max-w-2xl mx-auto mb-10 text-center text-gray-600 text-lg'
+                >
+                    Explore diverse opportunities tailored to your lifestyle: on-site, remote, hybrid, and part-time positions available to suit your preferences
+                </motion.p>
+
                 <motion.div
                     initial={{ y: 100, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{
-                        delay: 0.2, y: { type: "spring", stiffness: 60 }, opacity: { duration: 0.2 },
+                        delay: 0.4,
+                        y: { type: "spring", stiffness: 60 },
+                        opacity: { duration: 0.2 },
                         ease: "easeIn",
-                        duration: 1,
                     }}
-                    className='flex items-center justify-center font-medium'>
-                    <TabList>
-                        <Tab>All</Tab>
-                        <Tab >On-Site Job</Tab>
-                        <Tab>Remote Job</Tab>
-                        <Tab>Hybrid</Tab>
-                        <Tab>Part-Time</Tab>
+                    className='flex items-center justify-center mb-8'
+                >
+                    <TabList className="flex flex-wrap justify-center gap-2 sm:gap-4">
+                        {Object.values(tabIndexMap).map((tabName, index) => (
+                            <Tab
+                                key={index}
+                                className={`px-6 py-2.5 text-sm sm:text-base font-medium !rounded-full cursor-pointer transition-all duration-200 outline-none
+                                         ${tabIndexMap[activeTabIndex] === tabName ? '!bg-indigo-600 !text-white' : 'hover:bg-indigo-50 hover:text-indigo-600'}`}
+                            >
+                                {tabName}
+                            </Tab>
+                        ))}
                     </TabList>
                 </motion.div>
-                <TabPanel>
-                    <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{
-                            delay: 0.2,
-                            y: { type: "spring", stiffness: 60 },
-                            opacity: { duration: 0.2 },
-                            ease: "easeIn",
-                            duration: 1,
-                        }}
-                        className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
-                        {
-                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
-                        }
-                    </motion.div>
-                </TabPanel>
-                <TabPanel>
-                    <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{
-                            delay: 0.2,
-                            y: { type: "spring", stiffness: 60 },
-                            opacity: { duration: 0.2 },
-                            ease: "easeIn",
-                            duration: 1,
-                        }}
-                        className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
-                        {
-                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
-                        }
-                    </motion.div>
-                </TabPanel>
-                <TabPanel>
-                    <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{
-                            delay: 0.2,
-                            y: { type: "spring", stiffness: 60 },
-                            opacity: { duration: 0.2 },
-                            ease: "easeIn",
-                            duration: 1,
-                        }}
-                        className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
-                        {
-                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
-                        }
-                    </motion.div>
-                </TabPanel>
-                <TabPanel>
-                    <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{
-                            delay: 0.2,
-                            y: { type: "spring", stiffness: 60 },
-                            opacity: { duration: 0.2 },
-                            ease: "easeIn",
-                            duration: 1,
-                        }}
-                        className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
-                        {
-                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
-                        }
-                    </motion.div>
-                </TabPanel>
-                <TabPanel>
-                    <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{
-                            delay: 0.2,
-                            y: { type: "spring", stiffness: 60 },
-                            opacity: { duration: 0.2 },
-                            ease: "easeIn",
-                            duration: 1,
-                        }}
-                        className='grid grid-cols-1 lg:grid-cols-2  gap-8 my-10'>
-                        {
-                            jobs.map(job => <JobCard key={job._id} job={job}></JobCard>)
-                        }
-                    </motion.div>
-                </TabPanel>
-                {!fetching && !jobs.length && <div className='text-center text-gray-600'>
-                    No jobs found for this category
-                </div>}
+
+                {fetching ? (
+                    <div className="flex justify-center items-center min-h-[300px]">
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-600"></div>
+                    </div>
+                ) : (
+                    <>
+                        {Object.values(tabIndexMap).map((_, index) => (
+                            <TabPanel key={index}>
+                                <motion.div
+                                    initial={{ y: 50, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{
+                                        delay: 0.2,
+                                        y: { type: "spring", stiffness: 60 },
+                                        opacity: { duration: 0.3 },
+                                    }}
+                                    className='grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8'
+                                >
+                                    {jobs.map(job => (
+                                        <JobCard key={job._id} job={job} />
+                                    ))}
+                                </motion.div>
+                            </TabPanel>
+                        ))}
+
+                        {!jobs.length && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className='text-center py-10'
+                            >
+                                <p className='text-xl text-gray-600 font-medium'>No jobs found in this category</p>
+                                <p className='text-gray-500 mt-2'>Please check back later or try a different category</p>
+                            </motion.div>
+                        )}
+                    </>
+                )}
             </div>
         </Tabs>
     );
 };
+
 export default TabCategories;
