@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from '../../assets/Logo.png';
 import loginImg from '../../assets/login.jpg'
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../provider/FirebaseProvider";
@@ -152,7 +152,6 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer></ToastContainer>
         </div>
     );
 };

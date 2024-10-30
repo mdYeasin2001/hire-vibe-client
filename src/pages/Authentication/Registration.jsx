@@ -3,7 +3,7 @@ import logo from '../../assets/Logo.png';
 import regImg from '../../assets/reg.jpg'
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { IoMdPhotos } from "react-icons/io";
 import { AuthContext } from "../../provider/FirebaseProvider";
@@ -119,7 +119,6 @@ const Registration = () => {
                             <input type="submit" value="Register" className="text-lg font-semibold text-center w-full bg-amber-300 py-3 rounded-xl hover:bg-amber-200" />
                         </div>
                     </form>
-                    <ToastContainer></ToastContainer>
 
                     <div className='flex items-center justify-between mt-4'>
                         <span className='w-1/5 border-b  md:w-1/4'></span>

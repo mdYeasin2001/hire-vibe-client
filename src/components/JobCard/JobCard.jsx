@@ -5,16 +5,16 @@ const JobCard = ({ job }) => {
         job_title,
         job_type,
         salary,
-        posting_Date,
+        posting_date,
         deadline,
         applicants_number,
         employer
     } = job
     return (
-        <div 
-        className="max-w-2xl px-8 py-4  rounded-lg shadow-md ">
+        <div
+            className="max-w-2xl px-8 py-4  rounded-lg shadow-md ">
             <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-gray-600 ">Job Posted Date: {posting_Date}</p>
+                <p className="text-sm font-medium text-gray-600 ">Job Posted Date: {posting_date}</p>
                 <a className="px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gradient-to-r from-[#1488CC] to-[#2B32B2] rounded cursor-pointer" tabIndex="0" role="button">{job_type}</a>
 
             </div>

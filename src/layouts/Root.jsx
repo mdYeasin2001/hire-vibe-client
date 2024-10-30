@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
+import { ToastContainer } from "react-toastify";
 
 const Root = () => {
     return (
@@ -9,6 +10,7 @@ const Root = () => {
             <div className='min-h-[calc(100vh-364px)]'>
                 <Outlet />
             </div>
+            <ToastContainer style={{ zIndex: 9999999 }} />
             <Footer></Footer>
         </div>
     );

@@ -1,7 +1,8 @@
+/* eslint-disable no-undef */
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../provider/FirebaseProvider';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 const DetailsJob = () => {
     const job = useLoaderData()
@@ -13,38 +14,40 @@ const DetailsJob = () => {
 
 
     const handleApplyButtonClick = () => {
-        if (isDeadlinePassed()) {
-            toast.error('Deadline has expired');
-        }
-        else if (employer.email === user?.email) {
-            toast.error('Permission not granted')
-        }
-        else {
-            document.getElementById('my_modal_3').showModal()
-        }
+        // if (isDeadlinePassed()) {
+        //     toast.error('Deadline has expired');
+        // }
+        // else if (employer.email === user?.email) {
+        //     toast.error('Permission not granted')
+        // }
+        // else {
+        // }
+        document.getElementById('my_modal_3').showModal()
     }
 
-    const isDeadlinePassed = () => {
-        const deadlineData = new Date(deadline)
-        return deadlineData < new Date();
-    }
+    // const isDeadlinePassed = () => {
+    //     const deadlineData = new Date(deadline)
+    //     return deadlineData < new Date();
+    // }
 
 
     const handleApplyForm = async (e) => {
         e.preventDefault()
         const form = e.target;
-        const jobId = _id
+        const job_id = _id
         const email = form.email.value
         const name = form.name.value
-        const resumeLink = form.resumeLink.value
-        const applicantsNumber = parseInt(applicants_number)
+        const resume_link = form.resumeLink.value
         const appliedJobData = {
-            jobId, email, name, resumeLink, job_title, job_type, deadline, salary, applicants_number: applicantsNumber, description, employer
+            job_id, email, name, resume_link
         }
 
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/appliedJob`, appliedJobData)
+            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/applications`, appliedJobData, {
+                withCredentials: true
+            })
             console.log(data)
+            my_modal_3.close()
             toast.success('Applied Successfully')
             setTimeout(() => {
                 navigate('/');
@@ -52,7 +55,8 @@ const DetailsJob = () => {
 
         }
         catch (err) {
-            console.log(err)
+            my_modal_3.close()
+            toast.error(err.response.data.message || 'Something went wrong')
         }
 
     }
@@ -74,7 +78,7 @@ const DetailsJob = () => {
                 <p><span className='font-bold'>Deadline:</span> {new Date(deadline).toLocaleDateString()}</p>
                 <button className='font-medium bg-gradient-to-r from-[#1488CC] to-[#2B32B2] text-white px-4 py-2 rounded-md' onClick={handleApplyButtonClick}>Apply Now</button>
             </div>
-            <dialog id="my_modal_3" className="modal">
+            <dialog id="my_modal_3" className="modal !z-10">
                 <div className="modal-box">
                     <form method="dialog">
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -114,7 +118,6 @@ const DetailsJob = () => {
                     </div>
                 </div>
             </dialog>
-            <ToastContainer></ToastContainer>
         </div>
     );
 };

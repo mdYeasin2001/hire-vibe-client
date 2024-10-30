@@ -3,7 +3,7 @@ import { AuthContext } from "../../provider/FirebaseProvider";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useLoaderData } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const UpdateJobs = () => {
@@ -168,7 +168,6 @@ const UpdateJobs = () => {
                 <input type="submit" value="Update" className="btn btn-block bg-gradient-to-r from-[#1488CC] to-[#2B32B2] text-white" />
 
             </form>
-            <ToastContainer></ToastContainer>
         </div>
     );
 };

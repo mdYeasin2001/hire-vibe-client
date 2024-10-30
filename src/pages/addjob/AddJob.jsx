@@ -3,7 +3,7 @@ import { AuthContext } from "../../provider/FirebaseProvider";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const AddJob = () => {
     const [startDate, setStartDate] = useState(new Date());
@@ -15,27 +15,25 @@ const AddJob = () => {
         const email = form.email.value;
         const name = form.name.value;
         const job_title = form.job_title.value;
-        const pictureURL = form.pictureURL.value;
+        const picture_url = form.pictureURL.value;
         const description = form.description.value;
         const job_type = form.category.value;
         const salary = form.salary.value;
-        const posting_Date = form.postingDate.value;
+        const posting_date = form.postingDate.value;
         const deadline = startDate;
         const applicants_number = parseInt(form.applicants.value)
 
         const jobData = {
             job_title,
-            pictureURL,
+            picture_url,
             description,
             job_type,
             salary,
-            posting_Date,
+            posting_date,
             deadline,
             applicants_number,
-            employer: {
-                email,
-                name,
-            }
+            creator_email: email,
+            creator_name: name,
         }
         try {
             const { data } = await axios.post(
@@ -166,7 +164,6 @@ const AddJob = () => {
                 <input type="submit" value="Add Item" className="btn btn-block bg-gradient-to-r from-[#1488CC] to-[#2B32B2] text-white" />
 
             </form>
-            <ToastContainer></ToastContainer>
         </div>
     );
 };
